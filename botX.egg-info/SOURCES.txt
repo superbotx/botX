@@ -1,0 +1,15 @@
+LICENSE.txt
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+botX/__init__.py
+botX/components.py
+botX/robots.py
+botX/tasks.py
+botX.egg-info/PKG-INFO
+botX.egg-info/SOURCES.txt
+botX.egg-info/dependency_links.txt
+botX.egg-info/top_level.txt
+botX/configs/__init__.py
+botX/utils/__init__.py
