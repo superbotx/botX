@@ -7,6 +7,7 @@ setup(
     url='https://github.com/tianhaoz95/botX',
     author='Jason Chiau',
     author_email='tyan_chiau@berkeley.edu',
+    scripts=['bin/botX'],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',

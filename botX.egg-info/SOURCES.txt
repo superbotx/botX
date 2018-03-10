@@ -3,6 +3,7 @@ MANIFEST.in
 README.rst
 setup.cfg
 setup.py
+bin/botX
 botX/__init__.py
 botX/components.py
 botX/robots.py
@@ -12,4 +13,10 @@ botX.egg-info/SOURCES.txt
 botX.egg-info/dependency_links.txt
 botX.egg-info/top_level.txt
 botX/configs/__init__.py
+botX/configs/config.py
+botX/configs/params.py
 botX/utils/__init__.py
+botX/utils/exception_util.py
+botX/utils/install_util.py
+botX/utils/templates/__init__.py
+botX/utils/templates/test.py

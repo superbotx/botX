@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+import sys
+from botX.utils.install_util import *
+from botX.utils.exception_util import *
+
+try:
+    argv = sys.argv
+    action_type, payload = process_argv(argv)
+    execute_action(action_type, payload)
+except CreateProjectError as err:
+    err.help_msg()
