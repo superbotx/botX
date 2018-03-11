@@ -13,7 +13,7 @@ def botXimport(module_name):
     botX_modules = botX_meta['botX_modules']
     if module_name not in botX_modules:
         raise CreateProjectError(module_name + ' not found', 'Install module by => botX add botX ' + module_name)
-    import_name = 'botX_modules.' + module_name + '.botXexport'
+    import_name = 'botX_modules.' + module_name + '.botXsrc.botXexport'
     target_module = importlib.import_module(import_name)
     target_dict = getattr(target_module, 'botXexport')
     return target_dict
