@@ -128,9 +128,6 @@ def install_modules(module_type, module_dict):
         module_url = module_info['url']
         download_module(module_type, module_url, module_name)
 
-def recompile_external_modules():
-    print('recompile external dictionary')
-
 def install_missing_modules(module_type, my_dict, require_dict):
     install_dict = {}
     for require_module_name, require_module_info in require_dict.items():
@@ -139,7 +136,7 @@ def install_missing_modules(module_type, my_dict, require_dict):
     if install_dict:
         install_modules(module_type, install_dict)
     if module_type == 'external' and install_dict:
-        recompile_external_modules()
+        catkin_make('external_modules')
 
 def add_botX_module_dependency(module_name):
     required_botX_json = read_botX_json('botX_modules/' + module_name + '/botX.json')
