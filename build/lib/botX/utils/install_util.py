@@ -1,6 +1,8 @@
 import sys
 import os
 import json
+import zipfile
+import subprocess
 import urllib.request as urllib2
 from .exception_util import *
 from ..configs.config import *
@@ -47,16 +49,61 @@ def process_add_payload(payload):
         raise CreateProjectError(git_url + ' is not download url', 'Only github download url allowed')
     return module_type, git_url, git_proj
 
-def download_module(git_url, git_proj):
+def get_zip_roots(namelist):
+    roots = []
+    for name in namelist:
+        elts = name.split('/')
+        roots.append(elts[0] + '/')
+    roots = list(set(roots))
+    return roots
+
+def download_module(module_type, git_url, git_proj):
     module_data = urllib2.urlopen(git_url)
     create_if_not_exist('tmp')
     module_filename = 'tmp/' + git_proj + '.zip'
+    target_path = None
+    if module_type == 'botX':
+        target_path = 'botX_modules'
+    elif module_type == 'external':
+        target_path = 'external_modules'
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
     with open(module_filename, 'wb') as module_file:
         module_file.write(module_data.read())
+    unzip_filename = None
+    with zipfile.ZipFile(module_filename) as module_zip:
+        zip_roots = get_zip_roots(module_zip.namelist())
+        if len(zip_roots) != 1:
+            raise CreateProjectError('Only one project allowed, ' + str(len(zip_roots)) + ' detected', 'Check repo')
+        unzip_filename = zip_roots[0]
+        if module_type == 'botX':
+            module_zip.extractall(target_path)
+        elif module_type == 'external':
+            module_zip.extractall(target_path)
+        else:
+            raise CreateProjectError(module_type + ' is not valid', get_help())
+    os.rename(target_path + '/' + unzip_filename, target_path + '/' + git_proj)
+
+def add_module_to_json(module_type, git_url, git_proj):
+    botX_meta = None
+    with open('botX.json', 'r') as botX_file:
+        botX_meta = json.loads(botX_file.read())
+    with open('botX.json', 'w') as botX_file:
+        meta_info = {'url': git_url, 'name': git_proj}
+        entry_point = None
+        if module_type == 'botX':
+            entry_point = 'botX_modules'
+        elif module_type == 'external':
+            entry_point = 'external_modules'
+        else:
+            raise CreateProjectError(module_type + ' is not valid', get_help())
+        botX_meta[entry_point][git_proj] = meta_info
+        json.dump(botX_meta, botX_file)
 
 def add_module(payload):
     module_type, git_url, git_proj = process_add_payload(payload)
-    download_module(git_url, git_proj)
+    download_module(module_type, git_url, git_proj)
+    add_module_to_json(module_type, git_url, git_proj)
 
 def remove_module(payload):
     print('not implemented')
@@ -116,6 +163,14 @@ def create_init_file(dest_dir):
     with open(dest_dir + '/__init__.py', 'w') as init_file:
         pass
 
+def init_project_git(project_name):
+    wd = os.getcwd()
+    os.chdir(project_name)
+    subprocess.call(['git', 'init'])
+    subprocess.call(['git', 'add', '-A'])
+    subprocess.call(['git', 'commit', '-m', '\"init\"'])
+    os.chdir(wd)
+
 def create_project(payload):
     project_name = process_create_payload(payload)
     create_project_dir(project_name)
@@ -128,3 +183,4 @@ def create_project(payload):
     create_init_file(project_name + '/botXsrc')
     install_template(project_name + '/botXsrc/botXexport.py', 'botXexport_template')
     install_template(project_name + '/botXapp.py', 'botXapp_template')
+    init_project_git(project_name)

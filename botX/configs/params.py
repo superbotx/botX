@@ -17,5 +17,6 @@ git_ignore_list = [
     '.DS_Store',
     '*.pyc',
     '__pycache__',
-    '!botX_modules/__init__.py'
+    '!botX_modules/__init__.py',
+    'tmp/*'
 ]
