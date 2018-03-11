@@ -56,6 +56,15 @@ def process_add_payload(payload):
         raise CreateProjectError(git_url + ' is not download url', 'Only github download url allowed')
     return module_type, git_url, git_proj
 
+def process_remove_payload(payload):
+    if len(payload) != 2:
+        raise CreateProjectError('Invalid remove arguments', get_help())
+    module_type = payload[0]
+    if module_type not in valid_module_types:
+        raise CreateProjectError(module_type + ' is not a valid module type', 'botX and external allowed')
+    module_name = payload[1]
+    return module_type, module_name
+
 def read_botX_json(filename):
     botX_meta = None
     with open(filename, 'r') as botX_json_file:
@@ -167,7 +176,9 @@ def add_module(payload):
     add_module_to_json(module_type, git_url, git_proj)
 
 def remove_module(payload):
-    print('not implemented')
+    module_type, module_name = process_remove_payload(payload)
+    if not module_exist(module_type, module_name):
+        raise CreateProjectError(module_name + ' does not exist', 'Check the name again')
 
 def get_help():
     msg = 'Important argument missing\n\n'
