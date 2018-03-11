@@ -1,4 +1,8 @@
-allowed_actions = set(['version', 'create'])
+allowed_actions = set(['version', 'create', 'add'])
+
+valid_module_types = set(['botX', 'external'])
+
+git_prefix = 'https://github.com/'
 
 botX_json_template = {
     'name': 'placeholder',
@@ -6,3 +10,12 @@ botX_json_template = {
     'botX_modules': {},
     'external_modules': {},
 }
+
+git_ignore_list = [
+    'botX_modules/*',
+    'external_modules/*',
+    '.DS_Store',
+    '*.pyc',
+    '__pycache__',
+    '!botX_modules/__init__.py'
+]

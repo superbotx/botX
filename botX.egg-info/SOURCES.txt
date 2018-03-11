@@ -5,6 +5,7 @@ setup.cfg
 setup.py
 bin/botX
 botX/__init__.py
+botX/applications.py
 botX/components.py
 botX/robots.py
 botX/tasks.py
@@ -19,4 +20,5 @@ botX/utils/__init__.py
 botX/utils/exception_util.py
 botX/utils/install_util.py
 botX/utils/templates/__init__.py
-botX/utils/templates/test.py
+botX/utils/templates/botXapp_template.py
+botX/utils/templates/botXexport_template.py
