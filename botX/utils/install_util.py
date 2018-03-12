@@ -3,6 +3,8 @@ import os
 import json
 import zipfile
 import subprocess
+import shutil
+import platform
 import urllib.request as urllib2
 from .exception_util import *
 from ..configs.config import *
@@ -33,6 +35,9 @@ def execute_action(action_type, payload):
     elif action_type == 'remove':
         check_current_dir()
         remove_module(payload)
+    elif action_type == 'update':
+        check_current_dir()
+        update_module(payload)
     else:
         raise CreateProjectError('Invalid action code', get_help())
 
@@ -163,19 +168,52 @@ def module_exist(module_type, module_name):
     else:
         return False
 
-def add_module(payload):
+def add_module(payload, recompile=True):
     module_type, git_url, git_proj = process_add_payload(payload)
     if module_exist(module_type, git_proj):
         raise CreateProjectError(git_proj + ' already exist', 'Remove first or use botX update')
     download_module(module_type, git_url, git_proj)
     if module_type == 'botX':
         add_botX_module_dependency(git_proj)
+    if module_type == 'external' and recompile:
+        catkin_make('external_modules')
     add_module_to_json(module_type, git_url, git_proj)
 
-def remove_module(payload):
+def remove_module_from_json(module_type, module_name):
+    json_attr = None
+    if module_type == 'botX':
+        json_attr = 'botX_modules'
+    elif module_type == 'external':
+        json_attr = 'external_modules'
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
+    botX_json = read_botX_json('botX.json')
+    del botX_json[json_attr][module_name]
+    with open('botX.json', 'w') as output_file:
+        json.dump(botX_json, output_file)
+
+def remove_module_files(module_type, module_name):
+    module_path = None
+    if module_type == 'botX':
+        module_path = 'botX_modules/' + module_name
+    elif module_type == 'external':
+        module_path = 'external_modules/src/' + module_name
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
+    shutil.rmtree(module_path)
+
+def remove_module(payload, recompile=True):
     module_type, module_name = process_remove_payload(payload)
     if not module_exist(module_type, module_name):
         raise CreateProjectError(module_name + ' does not exist', 'Check the name again')
+    remove_module_files(module_type, module_name)
+    remove_module_from_json(module_type, module_name)
+    if module_type == 'external' and recompile:
+        catkin_make('external_modules')
+
+def update_module(payload):
+    remove_module(payload, False)
+    add_module(payload)
 
 def get_help():
     msg = 'Important argument missing\n\n'
@@ -241,6 +279,9 @@ def init_project_git(project_name):
     os.chdir(wd)
 
 def catkin_make(path):
+    os_name = platform.system()
+    if os_name != 'Linux':
+        raise CreateProjectError(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
     wd = os.getcwd()
     os.chdir(path)
     subprocess.call(['catkin_make'])

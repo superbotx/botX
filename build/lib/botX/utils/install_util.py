@@ -3,6 +3,8 @@ import os
 import json
 import zipfile
 import subprocess
+import shutil
+import platform
 import urllib.request as urllib2
 from .exception_util import *
 from ..configs.config import *
@@ -17,14 +19,21 @@ def process_argv(argv):
     payload = argv[2:]
     return action_type, payload
 
+def check_current_dir():
+    current_folder = os.listdir('.')
+    if 'botX.json' not in current_folder:
+        raise CreateProjectError('botX.json not found', 'Need to execute in project directory')
+
 def execute_action(action_type, payload):
     if action_type == 'create':
         create_project(payload)
     elif action_type == 'version':
         print_version(payload)
     elif action_type == 'add':
+        check_current_dir()
         add_module(payload)
     elif action_type == 'remove':
+        check_current_dir()
         remove_module(payload)
     else:
         raise CreateProjectError('Invalid action code', get_help())
@@ -49,6 +58,21 @@ def process_add_payload(payload):
         raise CreateProjectError(git_url + ' is not download url', 'Only github download url allowed')
     return module_type, git_url, git_proj
 
+def process_remove_payload(payload):
+    if len(payload) != 2:
+        raise CreateProjectError('Invalid remove arguments', get_help())
+    module_type = payload[0]
+    if module_type not in valid_module_types:
+        raise CreateProjectError(module_type + ' is not a valid module type', 'botX and external allowed')
+    module_name = payload[1]
+    return module_type, module_name
+
+def read_botX_json(filename):
+    botX_meta = None
+    with open(filename, 'r') as botX_json_file:
+        botX_meta = json.loads(botX_json_file.read())
+    return botX_meta
+
 def get_zip_roots(namelist):
     roots = []
     for name in namelist:
@@ -65,7 +89,7 @@ def download_module(module_type, git_url, git_proj):
     if module_type == 'botX':
         target_path = 'botX_modules'
     elif module_type == 'external':
-        target_path = 'external_modules'
+        target_path = 'external_modules/src'
     else:
         raise CreateProjectError(module_type + ' is not valid', get_help())
     with open(module_filename, 'wb') as module_file:
@@ -100,13 +124,89 @@ def add_module_to_json(module_type, git_url, git_proj):
         botX_meta[entry_point][git_proj] = meta_info
         json.dump(botX_meta, botX_file)
 
+def install_modules(module_type, module_dict):
+    for module_info in module_dict:
+        module_name = module_info['name']
+        module_url = module_info['url']
+        download_module(module_type, module_url, module_name)
+
+def install_missing_modules(module_type, my_dict, require_dict):
+    install_dict = {}
+    for require_module_name, require_module_info in require_dict.items():
+        if require_module_name not in my_dict:
+            install_dict[require_module_name] = require_module_info
+    if install_dict:
+        install_modules(module_type, install_dict)
+    if module_type == 'external' and install_dict:
+        catkin_make('external_modules')
+
+def add_botX_module_dependency(module_name):
+    required_botX_json = read_botX_json('botX_modules/' + module_name + '/botX.json')
+    project_botX_json = read_botX_json('botX.json')
+    required_botX_dict = required_botX_json['botX_modules']
+    required_external_dict = required_botX_json['external_modules']
+    project_botX_dict = project_botX_json['botX_modules']
+    project_external_dict = project_botX_json['external_modules']
+    install_missing_modules('botX', project_botX_dict, required_botX_dict)
+    install_missing_modules('external', project_external_dict, required_external_dict)
+
+def module_exist(module_type, module_name):
+    botX_meta = read_botX_json('botX.json')
+    module_cat = None
+    if module_type == 'botX':
+        module_cat = 'botX_modules'
+    elif module_type == 'external':
+        module_cat = 'external_modules'
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
+    module_dict = botX_meta[module_cat]
+    if module_name in module_dict:
+        return True
+    else:
+        return False
+
 def add_module(payload):
     module_type, git_url, git_proj = process_add_payload(payload)
+    if module_exist(module_type, git_proj):
+        raise CreateProjectError(git_proj + ' already exist', 'Remove first or use botX update')
     download_module(module_type, git_url, git_proj)
+    if module_type == 'botX':
+        add_botX_module_dependency(git_proj)
+    if module_type == 'external':
+        catkin_make('external_modules')
     add_module_to_json(module_type, git_url, git_proj)
 
+def remove_module_from_json(module_type, module_name):
+    json_attr = None
+    if module_type == 'botX':
+        json_attr = 'botX_modules'
+    elif module_type == 'external':
+        json_attr = 'external_modules'
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
+    botX_json = read_botX_json('botX.json')
+    del botX_json[json_attr][module_name]
+    with open('botX.json', 'w') as output_file:
+        json.dump(botX_json, output_file)
+
+def remove_module_files(module_type, module_name):
+    module_path = None
+    if module_type == 'botX':
+        module_path = 'botX_modules/' + module_name
+    elif module_type == 'external':
+        module_path = 'external_modules/src/' + module_name
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
+    shutil.rmtree(module_path)
+
 def remove_module(payload):
-    print('not implemented')
+    module_type, module_name = process_remove_payload(payload)
+    if not module_exist(module_type, module_name):
+        raise CreateProjectError(module_name + ' does not exist', 'Check the name again')
+    remove_module_files(module_type, module_name)
+    remove_module_from_json(module_type, module_name)
+    if module_type == 'external':
+        catkin_make('external_modules')
 
 def get_help():
     msg = 'Important argument missing\n\n'
@@ -171,6 +271,15 @@ def init_project_git(project_name):
     subprocess.call(['git', 'commit', '-m', '\"init\"'])
     os.chdir(wd)
 
+def catkin_make(path):
+    os_name = platform.system()
+    if os_name != 'Linux':
+        raise CreateProjectError(os_name + ' is not supported', 'Use a Linux machine')
+    wd = os.getcwd()
+    os.chdir(path)
+    subprocess.call(['catkin_make'])
+    os.chdir(wd)
+
 def create_project(payload):
     project_name = process_create_payload(payload)
     create_project_dir(project_name)
@@ -179,8 +288,10 @@ def create_project(payload):
     os.makedirs(project_name + '/botX_modules')
     create_init_file(project_name + '/botX_modules')
     os.makedirs(project_name + '/external_modules')
+    os.makedirs(project_name + '/external_modules/src')
     os.makedirs(project_name + '/botXsrc')
     create_init_file(project_name + '/botXsrc')
     install_template(project_name + '/botXsrc/botXexport.py', 'botXexport_template')
     install_template(project_name + '/botXapp.py', 'botXapp_template')
+    catkin_make(project_name + '/external_modules')
     init_project_git(project_name)

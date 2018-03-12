@@ -1,4 +1,4 @@
-allowed_actions = set(['version', 'create', 'add'])
+allowed_actions = set(['version', 'create', 'add', 'remove', 'update'])
 
 valid_module_types = set(['botX', 'external'])
 
@@ -19,4 +19,16 @@ git_ignore_list = [
     '__pycache__',
     '!botX_modules/__init__.py',
     'tmp/*'
+]
+
+help_doc = [
+    'Important argument missing\n\n',
+    '==> botX create [project name]\n',
+    'The above command will create a new project in current directory\n\n',
+    '==> botX add [module type] [github download url]\n',
+    'The above command add module to the project\n',
+    'module type: botX (botX module) / external (ros module)\n\n',
+    '==> botX remove [module type] [module name]\n',
+    'The above command remove added module\n',
+    'module type: botX (botX module) / external (ros module)\n\n'
 ]

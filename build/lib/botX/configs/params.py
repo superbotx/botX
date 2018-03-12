@@ -1,4 +1,4 @@
-allowed_actions = set(['version', 'create', 'add'])
+allowed_actions = set(['version', 'create', 'add', 'remove'])
 
 valid_module_types = set(['botX', 'external'])
 
