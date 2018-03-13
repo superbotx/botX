@@ -10,7 +10,8 @@ botX_json_template = {
     'botX_modules': {},
     'external_modules': {},
     'scripts': {
-        'moveit': 'sudo apt-get install ros-kinetic-moveit'
+        'moveit-install': 'sudo apt-get install ros-kinetic-moveit',
+        'moveit-source': 'source /opt/ros/kinetic/setup.bash'
     }
 }
 
