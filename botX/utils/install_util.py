@@ -299,6 +299,7 @@ def catkin_make(path):
     wd = os.getcwd()
     os.chdir(path)
     print('starting catkin_make ...')
+    subprocess.call(['ls'])
     subprocess.call(['catkin_make'])
     subprocess.call(['pwd'])
     print('building finished')
