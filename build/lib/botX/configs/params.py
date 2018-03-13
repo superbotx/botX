@@ -1,4 +1,4 @@
-allowed_actions = set(['version', 'create', 'add', 'remove', 'update'])
+allowed_actions = set(['version', 'create', 'add', 'remove', 'update', 'install'])
 
 valid_module_types = set(['botX', 'external'])
 
@@ -9,6 +9,10 @@ botX_json_template = {
     'version': '0.0.1',
     'botX_modules': {},
     'external_modules': {},
+    'scripts': {
+        'moveit-install': 'sudo apt-get install ros-kinetic-moveit',
+        'moveit-source': 'source /opt/ros/kinetic/setup.bash'
+    }
 }
 
 git_ignore_list = [
@@ -33,5 +37,7 @@ help_doc = [
     'module type: botX (botX module) / external (ros module)\n\n',
     '==> botX update [module_type] [module_name]\n',
     'The above command update the module\n',
-    'module type: botX (botX module) / external (ros module)\n\n'
+    'module type: botX (botX module) / external (ros module)\n\n',
+    '==> botX install\n',
+    'The above command will install all the modules when you first clone the project\n\n'
 ]

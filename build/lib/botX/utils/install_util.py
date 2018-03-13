@@ -6,6 +6,7 @@ import subprocess
 import shutil
 import platform
 import urllib.request as urllib2
+from .doc_util import *
 from .exception_util import *
 from ..configs.config import *
 from ..configs.params import *
@@ -38,6 +39,9 @@ def execute_action(action_type, payload):
     elif action_type == 'update':
         check_current_dir()
         update_module(payload)
+    elif action_type == 'install':
+        check_current_dir()
+        install_all()
     else:
         raise CreateProjectError('Invalid action code', get_help())
 
@@ -128,19 +132,19 @@ def add_module_to_json(module_type, git_url, git_proj):
         json.dump(botX_meta, botX_file, indent=4)
 
 def install_modules(module_type, module_dict):
-    for module_info in module_dict:
+    for module_id, module_info in module_dict.items():
         module_name = module_info['name']
         module_url = module_info['url']
         download_module(module_type, module_url, module_name)
 
-def install_missing_modules(module_type, my_dict, require_dict):
+def install_missing_modules(module_type, my_dict, require_dict, recompile=True):
     install_dict = {}
     for require_module_name, require_module_info in require_dict.items():
         if require_module_name not in my_dict:
             install_dict[require_module_name] = require_module_info
     if install_dict:
         install_modules(module_type, install_dict)
-    if module_type == 'external' and install_dict:
+    if module_type == 'external' and install_dict and recompile:
         catkin_make('external_modules')
 
 def add_botX_module_dependency(module_name):
@@ -226,16 +230,13 @@ def install_all():
     remove_all_file('botX_modules')
     remove_all_file('external_modules')
     os.makedirs('external_modules/src')
-    install_missing_modules('botX', {}, botX_modules)
-    install_missing_modules('external', {}, external_modules)
+    install_missing_modules('botX', {}, botX_modules, False)
+    install_missing_modules('external', {}, external_modules, False)
     catkin_make('external_modules')
 
 def update_module(payload):
     remove_module(payload, False)
     add_module(payload)
-
-def get_help():
-    return ''.join(s for s in help_doc)
 
 def print_version(payload):
     print(VERSION)
@@ -293,10 +294,9 @@ def catkin_make(path):
     if os_name != 'Linux':
         print(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
         return
-    wd = os.getcwd()
-    os.chdir(path)
-    subprocess.call(['catkin_make'])
-    os.chdir(wd)
+    print('starting catkin_make ...')
+    subprocess.call(['catkin_make', '--directory', path])
+    print('building finished')
 
 def create_project(payload):
     project_name = process_create_payload(payload)

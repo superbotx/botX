@@ -6,6 +6,7 @@ import subprocess
 import shutil
 import platform
 import urllib.request as urllib2
+from .doc_util import *
 from .exception_util import *
 from ..configs.config import *
 from ..configs.params import *
@@ -236,9 +237,6 @@ def install_all():
 def update_module(payload):
     remove_module(payload, False)
     add_module(payload)
-
-def get_help():
-    return ''.join(s for s in help_doc)
 
 def print_version(payload):
     print(VERSION)
