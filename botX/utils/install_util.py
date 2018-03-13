@@ -298,6 +298,7 @@ def catkin_make(path):
         return
     wd = os.getcwd()
     os.chdir(path)
+    subprocess.call(['ls'])
     subprocess.call(['catkin_make'])
     os.chdir(wd)
 
