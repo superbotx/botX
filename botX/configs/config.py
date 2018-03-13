@@ -4,7 +4,7 @@ PROJECT_DESCRIPTION = 'A easier way to build robots'
 
 VERSION = 'pre-alpha developer version, really really unstable and buggy, prepare youself'
 
-API_DOC = [
+API_DOC = {
     'create': {
         'name': 'create',
         'command': 'botX create [project name]',
@@ -52,4 +52,4 @@ API_DOC = [
         'arguments': {},
         'description': 'This command indicates the version of botX'
     }
-]
+}
