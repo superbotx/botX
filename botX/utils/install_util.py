@@ -296,12 +296,9 @@ def catkin_make(path):
     if os_name != 'Linux':
         print(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
         return
-    #wd = os.getcwd()
-    #os.chdir(path)
     print('starting catkin_make ...')
     subprocess.call(['catkin_make', '--directory', path])
     print('building finished')
-    #os.chdir(wd)
 
 def create_project(payload):
     project_name = process_create_payload(payload)
