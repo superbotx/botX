@@ -125,7 +125,7 @@ def add_module_to_json(module_type, git_url, git_proj):
         else:
             raise CreateProjectError(module_type + ' is not valid', get_help())
         botX_meta[entry_point][git_proj] = meta_info
-        json.dump(botX_meta, botX_file)
+        json.dump(botX_meta, botX_file, indent=4)
 
 def install_modules(module_type, module_dict):
     for module_info in module_dict:
@@ -190,7 +190,7 @@ def remove_module_from_json(module_type, module_name):
     botX_json = read_botX_json('botX.json')
     del botX_json[json_attr][module_name]
     with open('botX.json', 'w') as output_file:
-        json.dump(botX_json, output_file)
+        json.dump(botX_json, output_file, indent=4)
 
 def remove_module_files(module_type, module_name):
     module_path = None
@@ -261,7 +261,7 @@ def create_botX_json_file(project_name):
     template_cpy = botX_json_template.copy()
     template_cpy['name'] = project_name
     with open(project_name + '/botX.json', 'w') as outfile:
-        json.dump(template_cpy, outfile)
+        json.dump(template_cpy, outfile, indent=4)
 
 def install_template(dest_filename, template_name):
     template_path = os.path.join(os.path.dirname(__file__), 'templates/' + template_name + '.py')
@@ -291,7 +291,8 @@ def init_project_git(project_name):
 def catkin_make(path):
     os_name = platform.system()
     if os_name != 'Linux':
-        raise CreateProjectError(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
+        print(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
+        return
     wd = os.getcwd()
     os.chdir(path)
     subprocess.call(['catkin_make'])
@@ -310,5 +311,5 @@ def create_project(payload):
     create_init_file(project_name + '/botXsrc')
     install_template(project_name + '/botXsrc/botXexport.py', 'botXexport_template')
     install_template(project_name + '/botXapp.py', 'botXapp_template')
-    catkin_make(project_name + '/external_modules')
     init_project_git(project_name)
+    catkin_make(project_name + '/external_modules')
