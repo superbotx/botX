@@ -298,8 +298,10 @@ def catkin_make(path):
         return
     wd = os.getcwd()
     os.chdir(path)
-    subprocess.call(['ls'])
+    print('starting catkin_make ...')
+    subprocess.call(['pwd'])
     subprocess.call(['catkin_make'])
+    print('building finished')
     os.chdir(wd)
 
 def create_project(payload):
