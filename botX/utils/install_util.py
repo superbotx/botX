@@ -38,6 +38,9 @@ def execute_action(action_type, payload):
     elif action_type == 'update':
         check_current_dir()
         update_module(payload)
+    elif action_type == 'install':
+        check_current_dir()
+        install_all()
     else:
         raise CreateProjectError('Invalid action code', get_help())
 

@@ -33,5 +33,7 @@ help_doc = [
     'module type: botX (botX module) / external (ros module)\n\n',
     '==> botX update [module_type] [module_name]\n',
     'The above command update the module\n',
-    'module type: botX (botX module) / external (ros module)\n\n'
+    'module type: botX (botX module) / external (ros module)\n\n',
+    '==> botX install\n',
+    'The above command will install all the modules when you first clone the project\n\n'
 ]
