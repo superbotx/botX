@@ -131,7 +131,7 @@ def add_module_to_json(module_type, git_url, git_proj):
         json.dump(botX_meta, botX_file, indent=4)
 
 def install_modules(module_type, module_dict):
-    for module_info in module_dict:
+    for module_id, module_info in module_dict.items():
         module_name = module_info['name']
         module_url = module_info['url']
         download_module(module_type, module_url, module_name)
