@@ -6,7 +6,7 @@ Current version: pre-alpha developer version, really really unstable and buggy, 
 
 ## API documentation: 
 
-### API name: create
+### Command name: create
 
 Example: `botX create [project name]`
 
@@ -14,7 +14,7 @@ Available arguments:
 
 * project_name: The name of the project which will be the name of the directory as well
 
-### API name: add
+### Command name: add
 
 Example: `botX add [module type] [github download url]`
 
@@ -24,7 +24,7 @@ Available arguments:
 
 * github download url: The download url is different from git url
 
-### API name: remove
+### Command name: remove
 
 Example: `botX remove [module type] [module name]`
 
@@ -34,7 +34,7 @@ Available arguments:
 
 * module name: The name of the module which can be found in botX list
 
-### API name: update
+### Command name: update
 
 Example: `botX update [module_type] [module_name]`
 
@@ -44,13 +44,13 @@ Available arguments:
 
 * module name: The name of the module which can be found in botX list
 
-### API name: install
+### Command name: install
 
 Example: `botX install`
 
 Available arguments: 
 
-### API name: version
+### Command name: version
 
 Example: `botX version`
 
