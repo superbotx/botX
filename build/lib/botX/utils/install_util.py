@@ -35,6 +35,9 @@ def execute_action(action_type, payload):
     elif action_type == 'remove':
         check_current_dir()
         remove_module(payload)
+    elif action_type == 'update':
+        check_current_dir()
+        update_module(payload)
     else:
         raise CreateProjectError('Invalid action code', get_help())
 
@@ -165,14 +168,14 @@ def module_exist(module_type, module_name):
     else:
         return False
 
-def add_module(payload):
+def add_module(payload, recompile=True):
     module_type, git_url, git_proj = process_add_payload(payload)
     if module_exist(module_type, git_proj):
         raise CreateProjectError(git_proj + ' already exist', 'Remove first or use botX update')
     download_module(module_type, git_url, git_proj)
     if module_type == 'botX':
         add_botX_module_dependency(git_proj)
-    if module_type == 'external':
+    if module_type == 'external' and recompile:
         catkin_make('external_modules')
     add_module_to_json(module_type, git_url, git_proj)
 
@@ -199,26 +202,21 @@ def remove_module_files(module_type, module_name):
         raise CreateProjectError(module_type + ' is not valid', get_help())
     shutil.rmtree(module_path)
 
-def remove_module(payload):
+def remove_module(payload, recompile=True):
     module_type, module_name = process_remove_payload(payload)
     if not module_exist(module_type, module_name):
         raise CreateProjectError(module_name + ' does not exist', 'Check the name again')
     remove_module_files(module_type, module_name)
     remove_module_from_json(module_type, module_name)
-    if module_type == 'external':
+    if module_type == 'external' and recompile:
         catkin_make('external_modules')
 
+def update_module(payload):
+    remove_module(payload, False)
+    add_module(payload)
+
 def get_help():
-    msg = 'Important argument missing\n\n'
-    msg += '==> botX create [project name]\n'
-    msg += 'The above command will create a new project in current directory\n\n'
-    msg += '==> botX add [module type] [github download url]\n'
-    msg += 'The above command add module to the project\n'
-    msg += 'module type: botX (botX module) / external (ros module)\n\n'
-    msg += '==> botX remove [module type] [module name]\n'
-    msg += 'The above command remove added module\n'
-    msg += 'module type: botX (botX module) / external (ros module)\n\n'
-    return msg
+    return ''.join(s for s in help_doc)
 
 def print_version(payload):
     print(VERSION)
@@ -274,7 +272,7 @@ def init_project_git(project_name):
 def catkin_make(path):
     os_name = platform.system()
     if os_name != 'Linux':
-        raise CreateProjectError(os_name + ' is not supported', 'Use a Linux machine')
+        raise CreateProjectError(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
     wd = os.getcwd()
     os.chdir(path)
     subprocess.call(['catkin_make'])

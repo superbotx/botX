@@ -30,5 +30,8 @@ help_doc = [
     'module type: botX (botX module) / external (ros module)\n\n',
     '==> botX remove [module type] [module name]\n',
     'The above command remove added module\n',
+    'module type: botX (botX module) / external (ros module)\n\n',
+    '==> botX update [module_type] [module_name]\n',
+    'The above command update the module\n',
     'module type: botX (botX module) / external (ros module)\n\n'
 ]

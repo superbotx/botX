@@ -211,21 +211,31 @@ def remove_module(payload, recompile=True):
     if module_type == 'external' and recompile:
         catkin_make('external_modules')
 
+def remove_all_file(root):
+    for filename in os.listdir(root):
+        full_path = os.path.join(root, filename)
+        if os.path.isfile(full_path):
+            os.remove(full_path)
+        else:
+            shutil.rmtree(full_path)
+
+def install_all():
+    botX_meta = read_botX_json('botX.json')
+    botX_modules = botX_meta['botX_modules']
+    external_modules = botX_meta['external_modules']
+    remove_all_file('botX_modules')
+    remove_all_file('external_modules')
+    os.makedirs('external_modules/src')
+    install_missing_modules('botX', {}, botX_modules)
+    install_missing_modules('external', {}, external_modules)
+    catkin_make('external_modules')
+
 def update_module(payload):
     remove_module(payload, False)
     add_module(payload)
 
 def get_help():
-    msg = 'Important argument missing\n\n'
-    msg += '==> botX create [project name]\n'
-    msg += 'The above command will create a new project in current directory\n\n'
-    msg += '==> botX add [module type] [github download url]\n'
-    msg += 'The above command add module to the project\n'
-    msg += 'module type: botX (botX module) / external (ros module)\n\n'
-    msg += '==> botX remove [module type] [module name]\n'
-    msg += 'The above command remove added module\n'
-    msg += 'module type: botX (botX module) / external (ros module)\n\n'
-    return msg
+    return ''.join(s for s in help_doc)
 
 def print_version(payload):
     print(VERSION)
