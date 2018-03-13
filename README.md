@@ -1,16 +1,12 @@
 # botX
 
-======
+A easier way to build robots
 
-## A easier way to build robots
-
-======
-
-## Current version: pre-alpha developer version, really really unstable and buggy, prepare youself
+Current version: pre-alpha developer version, really really unstable and buggy, prepare youself
 
 ## API documentation: 
 
-Action: create
+### API name: create
 
 Example: `botX create [project name]`
 
@@ -18,7 +14,7 @@ Available arguments:
 
 * project_name: The name of the project which will be the name of the directory as well
 
-Action: add
+### API name: add
 
 Example: `botX add [module type] [github download url]`
 
@@ -28,7 +24,7 @@ Available arguments:
 
 * github download url: The download url is different from git url
 
-Action: remove
+### API name: remove
 
 Example: `botX remove [module type] [module name]`
 
@@ -38,7 +34,7 @@ Available arguments:
 
 * module name: The name of the module which can be found in botX list
 
-Action: update
+### API name: update
 
 Example: `botX update [module_type] [module_name]`
 
@@ -48,13 +44,13 @@ Available arguments:
 
 * module name: The name of the module which can be found in botX list
 
-Action: install
+### API name: install
 
 Example: `botX install`
 
 Available arguments: 
 
-Action: version
+### API name: version
 
 Example: `botX version`
 
