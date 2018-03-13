@@ -136,14 +136,14 @@ def install_modules(module_type, module_dict):
         module_url = module_info['url']
         download_module(module_type, module_url, module_name)
 
-def install_missing_modules(module_type, my_dict, require_dict):
+def install_missing_modules(module_type, my_dict, require_dict, recompile=True):
     install_dict = {}
     for require_module_name, require_module_info in require_dict.items():
         if require_module_name not in my_dict:
             install_dict[require_module_name] = require_module_info
     if install_dict:
         install_modules(module_type, install_dict)
-    if module_type == 'external' and install_dict:
+    if module_type == 'external' and install_dict and recompile:
         catkin_make('external_modules')
 
 def add_botX_module_dependency(module_name):
@@ -229,8 +229,8 @@ def install_all():
     remove_all_file('botX_modules')
     remove_all_file('external_modules')
     os.makedirs('external_modules/src')
-    install_missing_modules('botX', {}, botX_modules)
-    install_missing_modules('external', {}, external_modules)
+    install_missing_modules('botX', {}, botX_modules, False)
+    install_missing_modules('external', {}, external_modules, False)
     catkin_make('external_modules')
 
 def update_module(payload):
@@ -299,8 +299,8 @@ def catkin_make(path):
     wd = os.getcwd()
     os.chdir(path)
     print('starting catkin_make ...')
-    subprocess.call(['pwd'])
     subprocess.call(['catkin_make'])
+    subprocess.call(['pwd'])
     print('building finished')
     os.chdir(wd)
 
