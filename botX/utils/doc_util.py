@@ -5,6 +5,9 @@ def get_readme_content():
     content.append('# ' + PROJECT_NAME + '\n\n')
     content.append(PROJECT_DESCRIPTION + '\n\n')
     content.append('Current version: ' + VERSION + '\n\n')
+    content.append('## How to install?\n\n')
+    for s in INSTALLATION:
+        content.append(s + '\n\n')
     content.append('## API documentation: \n\n')
     for API_name, API_elt in API_DOC.items():
         content.append('### Command name: ' + API_elt['name'] + '\n\n')
