@@ -9,10 +9,7 @@ botX_json_template = {
     'version': '0.0.1',
     'botX_modules': {},
     'external_modules': {},
-    'scripts': {
-        'moveit-install': 'sudo apt-get install ros-kinetic-moveit',
-        'moveit-source': 'source /opt/ros/kinetic/setup.bash'
-    }
+    'source_scripts': []
 }
 
 git_ignore_list = [

@@ -1,1 +1,56 @@
-theme: jekyll-theme-hacker
+# Site settings
+title: Documentation for botX
+email: tyan_chiau@berkeley.edu
+description: >
+  Jekyll Template for Project Websites
+  providing documentation and blog post pages.
+
+baseurl: "/botX" # the subpath of your site, e.g. /blog/
+url: https://superbotx.github.io/botX # the base hostname & protocol for your site
+git_address: https://github.com/superbotx/botX
+git_edit_address: https://superbotx.github.io
+
+# theme options from https://bootswatch.com/
+# comment out this to use default Bootstrap
+bootwatch: cyborg
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+gems:
+  - jekyll-feed
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - .idea/
+  - .gitignore
+  - README.md
+timezone: Europe/Berlin
+defaults:
+- scope:
+    path: _posts
+    type: posts
+  values:
+    layout: post
+    sectionid: blog
+
+- scope:
+    path: _docs
+    type: docs
+  values:
+    layout: docs
+    sectionid: docs
+    seo:
+      type: "WebPage"
+
+collections:
+  docs:
+    permalink: /:collection/:path/
+    output: true
+  posts:
+    permalink: /blog/:year/:month/:day/:title/
+    output: true

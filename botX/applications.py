@@ -1,6 +1,8 @@
 import os
 import json
 import importlib
+import subprocess
+import uuid
 from .utils.exception_util import *
 
 def botXimport(module_name):
@@ -17,3 +19,30 @@ def botXimport(module_name):
     target_module = importlib.import_module(import_name)
     target_dict = getattr(target_module, 'botXexport')
     return target_dict
+
+def get_str_uuid():
+    uuid_code = uuid.uuid1()
+    uuid_str = str(uuid_code)
+    return uuid_code
+
+class ExternalCommandPool():
+
+    def __init__(self):
+        self.proc_dict = {}
+
+    def start_command(self, command):
+        current_env = os.environ
+        commands = command.split(' ')
+        proc = subprocess.Popen(args=commands, env=current_env)
+        proc_id = get_str_uuid()
+        self.proc_dict[proc_id] = proc
+        return proc_id
+
+    def end_command(self, proc_id):
+        if proc_id not in self.proc_dict:
+            print(proc_id, ' does not exist')
+            return
+        self.proc_dict[proc_id].terminate()
+        del self.proc_dict[proc_id]
+
+external_command_pool = ExternalCommandPool()

@@ -1,2 +1,10 @@
 *.pyc
 botXenv
+.DS_Store
+
+docs/_site
+docs/.sass-cache
+docs/.jekyll-metadata
+docs/*.gem
+docs/.bundle
+docs/vendor/bundle
