@@ -1,5 +1,6 @@
 - title: Getting Started
   docs:
+  - home
   - installation
 
 - title: Command Line Interface

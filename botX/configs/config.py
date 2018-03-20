@@ -67,7 +67,7 @@ API_DOC = {
 DOC_STRUCT = [
     {
         'title': 'Getting Started',
-        'docs': ['installation']
+        'docs': ['home', 'installation']
     },
     {
         'title': 'Command Line Interface',
