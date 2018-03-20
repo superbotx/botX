@@ -6,6 +6,10 @@ Current version: pre-alpha developer version, really really unstable and buggy, 
 
 ## How to install?
 
+### Install from source code
+
+> If you want to help me improve
+
 You can install by cloning the repo and do a local installation
 
 `git clone https://github.com/superbotx/botX.git`
@@ -15,6 +19,8 @@ You can install by cloning the repo and do a local installation
 `python setup.py build` (optional)
 
 `python setup.py install`
+
+### Install from pip
 
 You can also install from github by
 
@@ -71,4 +77,12 @@ Available arguments:
 Example: `botX version`
 
 Available arguments: 
+
+### Command name: source
+
+Example: `botX source [file_path]`
+
+Available arguments: 
+
+* file_path: The path to the source file, relative path from project root or absolute path if outside project
 

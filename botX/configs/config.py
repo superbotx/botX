@@ -5,11 +5,14 @@ PROJECT_DESCRIPTION = 'A easier way to build robots'
 VERSION = 'pre-alpha developer version, really really unstable and buggy, prepare youself'
 
 INSTALLATION = [
+    '### Install from source code',
+    '> If you want to help me improve',
     'You can install by cloning the repo and do a local installation',
     '`git clone https://github.com/superbotx/botX.git`',
     '`cd botX`',
     '`python setup.py build` (optional)',
     '`python setup.py install`',
+    '### Install from pip',
     'You can also install from github by',
     '`pip install git+https://github.com/superbotx/botX.git`'
 ]
@@ -61,6 +64,14 @@ API_DOC = {
         'command': 'botX version',
         'arguments': {},
         'description': 'This command indicates the version of botX'
+    },
+    'source': {
+        'name': 'source',
+        'command': 'botX source [file_path]',
+        'arguments': {
+            'file_path': 'The path to the source file, relative path from project root or absolute path if outside project'
+        },
+        'description': '[still under construction] This command adds source to the record'
     }
 }
 

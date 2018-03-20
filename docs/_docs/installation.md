@@ -3,6 +3,10 @@ title: Installation
 permalink: /docs/installation/
 ---
 
+### Install from source code
+
+> If you want to help me improve
+
 You can install by cloning the repo and do a local installation
 
 `git clone https://github.com/superbotx/botX.git`
@@ -12,6 +16,8 @@ You can install by cloning the repo and do a local installation
 `python setup.py build` (optional)
 
 `python setup.py install`
+
+### Install from pip
 
 You can also install from github by
 
