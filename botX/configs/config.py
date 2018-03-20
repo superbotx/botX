@@ -71,7 +71,7 @@ DOC_STRUCT = [
     },
     {
         'title': 'Command Line Interface',
-        'docs': ['command_' + command_name for command_name in API_DOC]
+        'docs': [command_name for command_name in API_DOC]
     },
     {
         'title': 'Examples',

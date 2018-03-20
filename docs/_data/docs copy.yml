@@ -4,18 +4,8 @@
   - themes
   - customization
 
-- title: Command Line Interface
-  docs:
-  - create
-  - add
-  - remove
-  - update
-  - install
-  - version
-
 - title: Examples
   docs:
   - cheatsheet
   - font-awesome
   - bootstrap
-
