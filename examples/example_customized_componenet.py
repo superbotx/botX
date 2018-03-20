@@ -8,8 +8,16 @@ class ZedCameraComponent(BaseComponent):
         setup is the method we must implement which will be called
         in the robot interface
         """
+
+        """
+        The command is the same that you will execute in a terminal
+        if path matters, you can either use an absolute path or a
+        relative path from the project root
+        """
         cmd = 'python fake_camera.py'
+
         proc_id = external_command_pool.start_command(cmd)
+        
         self.camera_proc_id = proc_id
 
     def shutdown(self):
