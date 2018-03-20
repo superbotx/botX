@@ -63,3 +63,18 @@ API_DOC = {
         'description': 'This command indicates the version of botX'
     }
 }
+
+DOC_STRUCT = [
+    {
+        'title': 'Getting Started',
+        'docs': ['home', 'themes', 'customization']
+    },
+    {
+        'title': 'Command Line Interface',
+        'docs': ['command_' + command_name for command_name in API_DOC]
+    },
+    {
+        'title': 'Examples',
+        'docs': ['cheatsheet', 'font-awesome', 'bootstrap']
+    }
+]
