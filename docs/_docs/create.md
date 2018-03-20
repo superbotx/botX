@@ -1,7 +1,8 @@
 ---
-title: create
+title: Create
 permalink: /docs/create/
 ---
+
 Command name: create
 
 This command creates a new project in current directory

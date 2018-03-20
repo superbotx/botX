@@ -1,8 +1,6 @@
 - title: Getting Started
   docs:
-  - home
-  - themes
-  - customization
+  - installation
 
 - title: Command Line Interface
   docs:
@@ -15,7 +13,7 @@
 
 - title: Examples
   docs:
-  - cheatsheet
-  - font-awesome
-  - bootstrap
+  - example_component_usage
+  - example_botX_export
+  - example_customized_componenet
 

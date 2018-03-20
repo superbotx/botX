@@ -67,14 +67,10 @@ API_DOC = {
 DOC_STRUCT = [
     {
         'title': 'Getting Started',
-        'docs': ['home', 'themes', 'customization']
+        'docs': ['installation']
     },
     {
         'title': 'Command Line Interface',
         'docs': [command_name for command_name in API_DOC]
-    },
-    {
-        'title': 'Examples',
-        'docs': ['cheatsheet', 'font-awesome', 'bootstrap']
     }
 ]

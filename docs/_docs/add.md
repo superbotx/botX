@@ -1,7 +1,8 @@
 ---
-title: add
+title: Add
 permalink: /docs/add/
 ---
+
 Command name: add
 
 This command adds module to the project

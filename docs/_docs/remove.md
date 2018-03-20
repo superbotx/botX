@@ -1,7 +1,8 @@
 ---
-title: remove
+title: Remove
 permalink: /docs/remove/
 ---
+
 Command name: remove
 
 This command removes module from the project

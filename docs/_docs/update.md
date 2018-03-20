@@ -1,7 +1,8 @@
 ---
-title: update
+title: Update
 permalink: /docs/update/
 ---
+
 Command name: update
 
 This command updates module in the project

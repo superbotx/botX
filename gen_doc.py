@@ -1,9 +1,30 @@
 from botX.utils.doc_util import *
 from botX.configs.config import *
 
-def output_doc_meta():
+def output_installation_page():
+    str_content = get_installation_page()
+    with open('docs/_docs/installation.md', 'w') as installation_file:
+        installation_file.write(str_content)
+
+def output_example_pages():
+    doc_struct = DOC_STRUCT.copy()
+    example_meta = {
+        'title': 'Examples',
+        'docs': []
+    }
+    for filename in os.listdir('examples'):
+        if '.py' in filename and filename.split('_')[0] == 'example':
+            title = filename.split('.')[0]
+            example_meta['docs'].append(title)
+            str_content = get_example_page('examples/' + filename)
+            with open('docs/_docs/' + title + '.md', 'w') as example_file:
+                example_file.write(str_content)
+    doc_struct.append(example_meta)
+    output_doc_meta(doc_struct=doc_struct)
+
+def output_doc_meta(doc_struct=DOC_STRUCT):
     contents = []
-    for doc_meta in DOC_STRUCT:
+    for doc_meta in doc_struct:
         contents.append('- title: ' + doc_meta['title'] + '\n')
         contents.append('  docs:\n')
         for doc in doc_meta['docs']:
@@ -27,8 +48,9 @@ def output_readme_file():
 
 def main():
     output_readme_file()
+    output_installation_page()
     output_command_pages()
-    output_doc_meta()
+    output_example_pages()
 
 if __name__ == '__main__':
     main()

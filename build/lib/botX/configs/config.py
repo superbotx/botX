@@ -4,6 +4,16 @@ PROJECT_DESCRIPTION = 'A easier way to build robots'
 
 VERSION = 'pre-alpha developer version, really really unstable and buggy, prepare youself'
 
+INSTALLATION = [
+    'You can install by cloning the repo and do a local installation',
+    '`git clone https://github.com/superbotx/botX.git`',
+    '`cd botX`',
+    '`python setup.py build` (optional)',
+    '`python setup.py install`',
+    'You can also install from github by',
+    '`pip install git+https://github.com/superbotx/botX.git`'
+]
+
 API_DOC = {
     'create': {
         'name': 'create',
@@ -53,3 +63,18 @@ API_DOC = {
         'description': 'This command indicates the version of botX'
     }
 }
+
+DOC_STRUCT = [
+    {
+        'title': 'Getting Started',
+        'docs': ['home', 'themes', 'customization']
+    },
+    {
+        'title': 'Command Line Interface',
+        'docs': [command_name for command_name in API_DOC]
+    },
+    {
+        'title': 'Examples',
+        'docs': ['cheatsheet', 'font-awesome', 'bootstrap']
+    }
+]
