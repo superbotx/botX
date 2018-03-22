@@ -224,6 +224,9 @@ def remove_all_file(root):
             shutil.rmtree(full_path)
 
 def install_all():
+    create_if_not_exist('botX_modules')
+    create_if_not_exist('external_modules')
+    create_if_not_exist('external_modules/src')
     botX_meta = read_botX_json('botX.json')
     botX_modules = botX_meta['botX_modules']
     external_modules = botX_meta['external_modules']
