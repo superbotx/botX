@@ -5,7 +5,10 @@ import zipfile
 import subprocess
 import shutil
 import platform
-import urllib.request as urllib2
+if sys.version_info[0] < 3:
+    import urllib.request as urllib_alias
+else:
+    import urllib as urllib_alias
 from .doc_util import *
 from .exception_util import *
 from ..configs.config import *
@@ -89,7 +92,7 @@ def get_zip_roots(namelist):
     return roots
 
 def download_module(module_type, git_url, git_proj):
-    module_data = urllib2.urlopen(git_url)
+    module_data = urllib_alias.urlopen(git_url)
     create_if_not_exist('tmp')
     module_filename = 'tmp/' + git_proj + '.zip'
     target_path = None
