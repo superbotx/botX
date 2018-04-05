@@ -5,7 +5,10 @@ import zipfile
 import subprocess
 import shutil
 import platform
-import urllib.request as urllib2
+if sys.version_info[0] < 3:
+    import urllib as urllib_alias
+else:
+    import urllib.request as urllib_alias
 from .doc_util import *
 from .exception_util import *
 from ..configs.config import *
@@ -42,6 +45,9 @@ def execute_action(action_type, payload):
     elif action_type == 'install':
         check_current_dir()
         install_all()
+    elif action_type == 'rebuild':
+        check_current_dir()
+        catkin_make('external_modules')
     else:
         raise CreateProjectError('Invalid action code', get_help())
 
@@ -89,7 +95,7 @@ def get_zip_roots(namelist):
     return roots
 
 def download_module(module_type, git_url, git_proj):
-    module_data = urllib2.urlopen(git_url)
+    module_data = urllib_alias.urlopen(git_url)
     create_if_not_exist('tmp')
     module_filename = 'tmp/' + git_proj + '.zip'
     target_path = None
@@ -224,6 +230,9 @@ def remove_all_file(root):
             shutil.rmtree(full_path)
 
 def install_all():
+    create_if_not_exist('botX_modules')
+    create_if_not_exist('external_modules')
+    create_if_not_exist('external_modules/src')
     botX_meta = read_botX_json('botX.json')
     botX_modules = botX_meta['botX_modules']
     external_modules = botX_meta['external_modules']
@@ -289,11 +298,25 @@ def init_project_git(project_name):
     subprocess.call(['git', 'commit', '-m', '\"init\"'])
     os.chdir(wd)
 
+def chmod_cfg_files(path):
+    for k in os.listdir(path):
+        full_path = os.path.join(path, k)
+        if '.cfg' in full_path:
+                print('calling chmod on ', full_path)
+                subprocess.call(['chmod','+x',full_path])
+        else:
+            try:
+                chmod_cfg_files(full_path)
+            except:
+                print('cannot open ', full_path)
+
 def catkin_make(path):
     os_name = platform.system()
     if os_name != 'Linux':
         print(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
         return
+    print('makding all cfg files executable ...')
+    chmod_cfg_files(os.path.join(path, 'src'))
     print('starting catkin_make ...')
     subprocess.call(['catkin_make', '--directory', path])
     print('building finished')

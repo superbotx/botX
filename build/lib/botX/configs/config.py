@@ -5,11 +5,14 @@ PROJECT_DESCRIPTION = 'A easier way to build robots'
 VERSION = 'pre-alpha developer version, really really unstable and buggy, prepare youself'
 
 INSTALLATION = [
+    '### Install from source code',
+    '> If you want to help me improve',
     'You can install by cloning the repo and do a local installation',
     '`git clone https://github.com/superbotx/botX.git`',
     '`cd botX`',
     '`python setup.py build` (optional)',
     '`python setup.py install`',
+    '### Install from pip',
     'You can also install from github by',
     '`pip install git+https://github.com/superbotx/botX.git`'
 ]
@@ -30,7 +33,8 @@ API_DOC = {
             'module_type': 'The type of module which can be either botX or external',
             'github download url': 'The download url is different from git url'
         },
-        'description': 'This command adds module to the project'
+        'description': 'This command adds module to the project. If you do not have\
+         permission to cfg file, do `chmod +x /path/to/cfg/file`'
     },
     'remove': {
         'name': 'remove',
@@ -54,27 +58,39 @@ API_DOC = {
         'name': 'install',
         'command': 'botX install',
         'arguments': {},
-        'description': 'This command installs all the modules'
+        'description': 'This command installs all the modules. If you do not have permission\
+         to cfg file, do `chmod +x /path/to/cfg/file'
     },
     'version': {
         'name': 'version',
         'command': 'botX version',
         'arguments': {},
         'description': 'This command indicates the version of botX'
+    },
+    'source': {
+        'name': 'source',
+        'command': 'botX source [file_path]',
+        'arguments': {
+            'file_path': 'The path to the source file, relative path from project root or absolute path if outside project'
+        },
+        'description': '[still under construction] This command adds source to the record'
+    },
+    'rebuild': {
+        'name': 'rebuild',
+        'command': 'botX rebuild',
+        'arguments': {},
+        'description': 'This command will rebuild external modules without re-downloading. \
+        If you do not have permission to cfg file, do `chmod +x /path/to/cfg/file'
     }
 }
 
 DOC_STRUCT = [
     {
         'title': 'Getting Started',
-        'docs': ['home', 'themes', 'customization']
+        'docs': ['home', 'installation']
     },
     {
         'title': 'Command Line Interface',
         'docs': [command_name for command_name in API_DOC]
-    },
-    {
-        'title': 'Examples',
-        'docs': ['cheatsheet', 'font-awesome', 'bootstrap']
     }
 ]

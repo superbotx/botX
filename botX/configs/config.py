@@ -33,7 +33,8 @@ API_DOC = {
             'module_type': 'The type of module which can be either botX or external',
             'github download url': 'The download url is different from git url'
         },
-        'description': 'This command adds module to the project'
+        'description': 'This command adds module to the project. If you do not have\
+         permission to cfg file, do `chmod +x /path/to/cfg/file`'
     },
     'remove': {
         'name': 'remove',
@@ -57,7 +58,8 @@ API_DOC = {
         'name': 'install',
         'command': 'botX install',
         'arguments': {},
-        'description': 'This command installs all the modules'
+        'description': 'This command installs all the modules. If you do not have permission\
+         to cfg file, do `chmod +x /path/to/cfg/file'
     },
     'version': {
         'name': 'version',
@@ -72,6 +74,13 @@ API_DOC = {
             'file_path': 'The path to the source file, relative path from project root or absolute path if outside project'
         },
         'description': '[still under construction] This command adds source to the record'
+    },
+    'rebuild': {
+        'name': 'rebuild',
+        'command': 'botX rebuild',
+        'arguments': {},
+        'description': 'This command will rebuild external modules without re-downloading. \
+        If you do not have permission to cfg file, do `chmod +x /path/to/cfg/file'
     }
 }
 

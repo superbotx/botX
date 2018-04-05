@@ -1,4 +1,4 @@
-#!/Users/tianhaozhou/Documents/superbotx/botX/botXenv/bin/python3
+#!/usr/bin/python3
 
 import sys
 from botX.utils.install_util import *

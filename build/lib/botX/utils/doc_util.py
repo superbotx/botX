@@ -1,13 +1,40 @@
+import os
 from ..configs.config import *
+
+def get_installation_page():
+    content = []
+    content.append('---\n')
+    content.append('title: ' + 'Installation' + '\n')
+    content.append('permalink: /docs/installation' + '/\n')
+    content.append('---\n\n')
+    for s in INSTALLATION:
+        content.append(s + '\n\n')
+    str_content = ''.join(s for s in content)
+    return str_content
+
+def get_example_page(filename):
+    content = []
+    title = filename.split('/')[-1].split('.')[0].replace('example_', '').replace('_', ' ').capitalize()
+    link = 'permalink: /docs/' + filename.split('/')[-1].split('.')[0]
+    with open(filename, 'r') as example_file:
+        content.append('---\n')
+        content.append('title: ' + title + '\n')
+        content.append(link + '/\n')
+        content.append('---\n\n')
+        content.append('```python\n')
+        content.append(example_file.read())
+        content.append('```\n')
+    str_content = ''.join(s for s in content)
+    return str_content
 
 def get_command_pages():
     output = {}
     for API_name, API_elt in API_DOC.items():
         content = []
         content.append('---\n')
-        content.append('title: ' + API_elt['name'] + '\n')
+        content.append('title: ' + API_elt['name'].capitalize() + '\n')
         content.append('permalink: /docs/' + API_elt['name'] + '/\n')
-        content.append('---\n')
+        content.append('---\n\n')
         content.append('Command name: ' + API_elt['name'] + '\n\n')
         content.append(API_elt['description'] + '\n\n')
         content.append('Example: `' + API_elt['command'] + '`\n\n')
