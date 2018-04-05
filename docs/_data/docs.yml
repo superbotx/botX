@@ -5,17 +5,18 @@
 
 - title: Command Line Interface
   docs:
-  - create
-  - add
+  - source
   - remove
   - update
+  - create
   - install
+  - rebuild
   - version
-  - source
+  - add
 
 - title: Examples
   docs:
+  - example_customized_componenet
   - example_component_usage
   - example_botX_export
-  - example_customized_componenet
 

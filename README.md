@@ -28,6 +28,34 @@ You can also install from github by
 
 ## API documentation: 
 
+### Command name: source
+
+Example: `botX source [file_path]`
+
+Available arguments: 
+
+* file_path: The path to the source file, relative path from project root or absolute path if outside project
+
+### Command name: remove
+
+Example: `botX remove [module type] [module name]`
+
+Available arguments: 
+
+* module name: The name of the module which can be found in botX list
+
+* module_type: The type of module which can be either botX or external
+
+### Command name: update
+
+Example: `botX update [module_type] [module_name]`
+
+Available arguments: 
+
+* module name: The name of the module which can be found in botX list
+
+* module_type: The type of module which can be either botX or external
+
 ### Command name: create
 
 Example: `botX create [project name]`
@@ -36,39 +64,15 @@ Available arguments:
 
 * project_name: The name of the project which will be the name of the directory as well
 
-### Command name: add
-
-Example: `botX add [module type] [github download url]`
-
-Available arguments: 
-
-* module_type: The type of module which can be either botX or external
-
-* github download url: The download url is different from git url
-
-### Command name: remove
-
-Example: `botX remove [module type] [module name]`
-
-Available arguments: 
-
-* module_type: The type of module which can be either botX or external
-
-* module name: The name of the module which can be found in botX list
-
-### Command name: update
-
-Example: `botX update [module_type] [module_name]`
-
-Available arguments: 
-
-* module_type: The type of module which can be either botX or external
-
-* module name: The name of the module which can be found in botX list
-
 ### Command name: install
 
 Example: `botX install`
+
+Available arguments: 
+
+### Command name: rebuild
+
+Example: `botX rebuild`
 
 Available arguments: 
 
@@ -78,11 +82,13 @@ Example: `botX version`
 
 Available arguments: 
 
-### Command name: source
+### Command name: add
 
-Example: `botX source [file_path]`
+Example: `botX add [module type] [github download url]`
 
 Available arguments: 
 
-* file_path: The path to the source file, relative path from project root or absolute path if outside project
+* github download url: The download url is different from git url
+
+* module_type: The type of module which can be either botX or external
 
