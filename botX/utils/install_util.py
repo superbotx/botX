@@ -6,9 +6,9 @@ import subprocess
 import shutil
 import platform
 if sys.version_info[0] < 3:
-    import urllib.request as urllib_alias
-else:
     import urllib as urllib_alias
+else:
+    import urllib.request as urllib_alias
 from .doc_util import *
 from .exception_util import *
 from ..configs.config import *
