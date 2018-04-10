@@ -298,17 +298,23 @@ def init_project_git(project_name):
     subprocess.call(['git', 'commit', '-m', '\"init\"'])
     os.chdir(wd)
 
-def chmod_cfg_files(path):
+def scan_files(path):
     for k in os.listdir(path):
         full_path = os.path.join(path, k)
         if '.cfg' in full_path:
-                print('calling chmod on ', full_path)
-                subprocess.call(['chmod','+x',full_path])
+            print('calling chmod on ', full_path)
+            subprocess.call(['chmod','+x',full_path])
+        if '.py' in full_path:
+            with open(full_path) as py_file:
+                content = py_file.read()
+                if '#!/usr/bin/env python' in content:
+                    print('calling chmod on ', full_path)
+                    subprocess.call(['chmod', '+x', full_path])
         else:
             try:
-                chmod_cfg_files(full_path)
+                scan_files(full_path)
             except:
-                print('cannot open ', full_path)
+                pass
 
 def catkin_make(path):
     os_name = platform.system()
@@ -316,7 +322,7 @@ def catkin_make(path):
         print(os_name + ' is not supported', 'Use a Linux machine (Ubuntu 16.04 suggested)')
         return
     print('makding all cfg files executable ...')
-    chmod_cfg_files(os.path.join(path, 'src'))
+    scan_files(os.path.join(path, 'src'))
     print('starting catkin_make ...')
     subprocess.call(['catkin_make', '--directory', path])
     print('building finished')

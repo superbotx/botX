@@ -1,0 +1,5 @@
+build/**
+dist/**
+botX.egg-info/**
+examples/**
+docs/**
