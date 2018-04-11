@@ -13,7 +13,11 @@ class DummyComponent(BaseComponent):
         print('shutdown component')
         return 5
 
+    def get_img(self, config):
+        return 'img'
+
 def test_dummy_component():
     dummy = DummyComponent()
     assert(dummy.setup() == 3)
     assert(dummy.shutdown() == 5)
+    assert(dummy.get_img('i want img') == 'img')
