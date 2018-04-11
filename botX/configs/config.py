@@ -1,5 +1,10 @@
 PROJECT_NAME = 'botX'
 
+BADGES = [
+    '[![CircleCI](https://circleci.com/gh/superbotx/botX.svg?style=svg)](https://circleci.com/gh/superbotx/botX)',
+    '[![codebeat badge](https://codebeat.co/badges/ec88afd6-002a-43e2-83f0-c5003c45eeb2)](https://codebeat.co/projects/github-com-superbotx-botx-master)'
+]
+
 PROJECT_DESCRIPTION = 'A easier way to build robots'
 
 VERSION = 'pre-alpha developer version, really really unstable and buggy, prepare youself'

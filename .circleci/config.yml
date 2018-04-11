@@ -45,11 +45,24 @@ jobs:
       # https://pytest.org
       # https://nose.readthedocs.io
       - run:
-          name: run tests
+          name: run module installation
           command: |
             . venv/bin/activate
             python setup.py build
             python setup.py install
+
+      - run:
+          name: run unit tests
+          command: |
+            pytest
+
+      - run:
+          name: run command line test
+          command: |
+            cd ~/repo
+            botX create ci_proj
+            cd ci_proj
+            botX version
 
       - store_artifacts:
           path: test-reports

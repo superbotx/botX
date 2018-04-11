@@ -1,5 +1,6 @@
 *.pyc
 botXenv
+venv
 .DS_Store
 
 docs/_site

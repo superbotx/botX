@@ -5,14 +5,14 @@
 
 - title: Command Line Interface
   docs:
-  - source
-  - remove
-  - update
-  - create
-  - install
-  - rebuild
   - version
   - add
+  - source
+  - update
+  - install
+  - create
+  - rebuild
+  - remove
 
 - title: Examples
   docs:

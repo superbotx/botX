@@ -11,8 +11,8 @@ Example: `botX remove [module type] [module name]`
 
 Available arguments: 
 
-* module name: The name of the module which can be found in botX list
-
 * module_type: The type of module which can be either botX or external
+
+* module name: The name of the module which can be found in botX list
 
 

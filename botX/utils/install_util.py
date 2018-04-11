@@ -141,6 +141,7 @@ def install_modules(module_type, module_dict):
     for module_id, module_info in module_dict.items():
         module_name = module_info['name']
         module_url = module_info['url']
+        add_module_to_json(module_type, module_url, module_name)
         download_module(module_type, module_url, module_name)
 
 def install_missing_modules(module_type, my_dict, require_dict, recompile=True):
@@ -324,8 +325,11 @@ def catkin_make(path):
     print('makding all cfg files executable ...')
     scan_files(os.path.join(path, 'src'))
     print('starting catkin_make ...')
-    subprocess.call(['catkin_make', '--directory', path])
-    print('building finished')
+    try:
+        subprocess.call(['catkin_make', '--directory', path])
+        print('building finished')
+    except:
+        print('building failed, please check your catkin')
 
 def create_project(payload):
     project_name = process_create_payload(payload)
