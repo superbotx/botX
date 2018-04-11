@@ -54,11 +54,13 @@ jobs:
       - run:
           name: run unit tests
           command: |
+            . venv/bin/activate
             pytest
 
       - run:
           name: run command line test
           command: |
+            . venv/bin/activate
             cd ~/repo
             botX create ci_proj
             cd ci_proj
