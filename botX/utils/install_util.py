@@ -326,7 +326,7 @@ def catkin_make(path):
     scan_files(os.path.join(path, 'src'))
     print('starting catkin_make ...')
     try:
-        subprocess.call(['catkin_make', '--directory', path])
+        subprocess.call(['catkin_make', '-j4', '--directory', path])
         print('building finished')
     except:
         print('building failed, please check your catkin')
