@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import uuid
 import zipfile
 import subprocess
 import shutil
@@ -63,12 +64,18 @@ def process_add_payload(payload):
     if url_prefix != git_prefix:
         raise CreateProjectError(git_url + ' is not a valid url', 'Only github download url allowed')
     git_elts = git_info.split('/')
-    git_usr = git_elts[0]
-    git_proj = git_elts[1]
-    git_dir = git_elts[2]
-    git_file = git_elts[3]
-    if git_dir != 'archive' or '.zip' not in git_file:
-        raise CreateProjectError(git_url + ' is not download url', 'Only github download url allowed')
+    git_usr = None
+    git_proj = None
+    if '.zip' in git_info:
+        git_usr = git_elts[0]
+        git_proj = git_elts[1]
+        git_dir = git_elts[2]
+        git_file = git_elts[3]
+        if git_dir != 'archive' or '.zip' not in git_file:
+            raise CreateProjectError(git_url + ' is not download url', 'Only github download url allowed')
+    if '.git' in git_info:
+        git_usr = git_elts[0]
+        git_proj = git_elts[1][:-4]
     return module_type, git_url, git_proj
 
 def process_remove_payload(payload):
@@ -94,7 +101,23 @@ def get_zip_roots(namelist):
     roots = list(set(roots))
     return roots
 
-def download_module(module_type, git_url, git_proj):
+def maybe_download_git(url, dest_root, dest_dir):
+    if dest_dir in os.listdir(dest_root):
+        return
+    data = urllib_alias.urlopen(url)
+    create_if_not_exist('tmp')
+    tmp_filename = 'tmp/' + str(uuid.uuid4()) + '.zip'
+    with open(tmp_filename, 'wb') as tmp_file:
+        tmp_file.write(data.read())
+    with zipfile.ZipFile(tmp_filename) as unpacked_data:
+        zip_roots = get_zip_roots(unpacked_data.namelist())
+        if len(zip_roots) != 1:
+            raise CreateProjectError('Only one project allowed, ' + str(len(zip_roots)) + ' detected', 'Check repo')
+        unzip_filename = zip_roots[0]
+        unpacked_data.extractall(dest_root)
+        os.rename(os.path.join(dest_root, unzip_filename), os.path.join(dest_root, dest_dir))
+
+def download_module_raw(module_type, git_url, git_proj):
     module_data = urllib_alias.urlopen(git_url)
     create_if_not_exist('tmp')
     module_filename = 'tmp/' + git_proj + '.zip'
@@ -120,6 +143,28 @@ def download_module(module_type, git_url, git_proj):
         else:
             raise CreateProjectError(module_type + ' is not valid', get_help())
     os.rename(target_path + '/' + unzip_filename, target_path + '/' + git_proj)
+
+def download_module_git(module_type, git_url, git_proj):
+    target_path = None
+    if module_type == 'botX':
+        target_path = 'botX_modules'
+    elif module_type == 'external':
+        target_path = 'external_modules/src'
+    else:
+        raise CreateProjectError(module_type + ' is not valid', get_help())
+    current_dir = os.getcwd()
+    os.chdir(target_path)
+    subprocess.call(['git', 'clone', git_url])
+    subprocess.call(['rm', '-rf', os.path.join(target_path, git_proj, '.git')])
+    os.chdir(current_dir)
+
+def download_module(module_type, git_url, git_proj):
+    if '.git' in git_url:
+        download_module_git(module_type, git_url, git_proj)
+    elif '.zip' in git_url:
+        download_module_raw(module_type, git_url, git_proj)
+    else:
+        raise CreateProjectError('Only git is supported')
 
 def add_module_to_json(module_type, git_url, git_proj):
     botX_meta = None
@@ -305,7 +350,7 @@ def scan_files(path):
         if '.cfg' in full_path:
             print('calling chmod on ', full_path)
             subprocess.call(['chmod','+x',full_path])
-        if '.py' in full_path:
+        elif '.py' in full_path:
             with open(full_path) as py_file:
                 content = py_file.read()
                 if '#!/usr/bin/env python' in content:
@@ -315,7 +360,14 @@ def scan_files(path):
             try:
                 scan_files(full_path)
             except:
-                pass
+                try:
+                    with open(full_path) as extra_file:
+                        content = extra_file.read()
+                        if '#!/bin/sh' in content:
+                            print('calling chmod on ', full_path)
+                            subprocess.call(['chmod', '+x', full_path])
+                except:
+                    print('Unknown file: ', full_path)
 
 def catkin_make(path):
     os_name = platform.system()
