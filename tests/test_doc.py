@@ -1,5 +1,5 @@
-from botX.utils.doc_util import *
-from botX.configs.config import *
+from .botX.utils.doc_util import *
+from .botX.configs.config import *
 
 def output_installation_page():
     str_content = get_installation_page()
@@ -46,10 +46,8 @@ def output_readme_file():
     with open('README.md', 'w') as readme_file:
         readme_file.write(doc_content)
 
-def main():
+def test_doc():
+    output_readme_file()
     output_installation_page()
     output_command_pages()
     output_example_pages()
-
-if __name__ == '__main__':
-    main()
