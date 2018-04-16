@@ -55,7 +55,7 @@ jobs:
           name: run unit tests
           command: |
             . venv/bin/activate
-            pytest
+            pytest  --cov=./
 
       - run:
           name: run command line test
@@ -65,6 +65,12 @@ jobs:
             botX create ci_proj
             cd ci_proj
             botX version
+
+      - run:
+          name: send coverage report
+          command: |
+            . venv/bin/activate
+            codecov
 
       - store_artifacts:
           path: test-reports

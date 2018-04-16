@@ -2,6 +2,7 @@
 botXenv
 venv
 .DS_Store
+__pycache__
 
 docs/_site
 docs/.sass-cache
