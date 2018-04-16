@@ -2,9 +2,9 @@
 
 | System | Status |
 | ------------- |:-------------:|
-| CircleCI | [![CircleCI](https://circleci.com/gh/superbotx/botX.svg?style=svg)](https://circleci.com/gh/superbotx/botX) |
-| CodeBeat | [![codebeat badge](https://codebeat.co/badges/ec88afd6-002a-43e2-83f0-c5003c45eeb2)](https://codebeat.co/projects/github-com-superbotx-botx-master) |
-| Codecov | [![codecov](https://codecov.io/gh/superbotx/botX/branch/master/graph/badge.svg)](https://codecov.io/gh/superbotx/botX) |
+| CircleCI Building Test | [![CircleCI](https://circleci.com/gh/superbotx/botX.svg?style=svg)](https://circleci.com/gh/superbotx/botX) |
+| CodeBeat Style Check | [![codebeat badge](https://codebeat.co/badges/ec88afd6-002a-43e2-83f0-c5003c45eeb2)](https://codebeat.co/projects/github-com-superbotx-botx-master) |
+| Codecov Coverage Test | [![codecov](https://codecov.io/gh/superbotx/botX/branch/master/graph/badge.svg)](https://codecov.io/gh/superbotx/botX) |
 
 A easier way to build robots
 
