@@ -52,6 +52,18 @@ jobs:
             python3 setup.py install
 
       - run:
+          name: check pip packages
+          command: |
+            . venv/bin/activate
+            pip list
+
+      - run:
+          name: check pip3 packages
+          command: |
+            . venv/bin/activate
+            pip3 list
+
+      - run:
           name: run unit tests
           command: |
             . venv/bin/activate
