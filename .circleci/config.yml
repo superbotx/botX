@@ -55,7 +55,7 @@ jobs:
           name: run unit tests
           command: |
             . venv/bin/activate
-            pytest  --cov=./
+            pytest  --cov=botX
 
       - run:
           name: run command line test
