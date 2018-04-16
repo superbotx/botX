@@ -1,5 +1,6 @@
 from .botX.utils.install_util import *
 from .botX.utils.exception_util import *
+import os
 import shutil
 
 def exec_command(argv):
@@ -8,4 +9,7 @@ def exec_command(argv):
 
 def test_commands():
     exec_command(['botX', 'create', 'test_proj'])
+    os.chdir('test_proj')
+    exec_command(['botX', 'install'])
+    os.chdir('..')
     shutil.rmtree('test_proj')

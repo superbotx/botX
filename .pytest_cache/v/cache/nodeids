@@ -1,5 +1,6 @@
 [
   "tests/test_cmd_create.py::test_commands",
+  "tests/test_cmd_install.py::test_commands",
   "tests/test_cmd_version.py::test_commands",
   "tests/test_dummy_component.py::test_dummy_component"
 ]
