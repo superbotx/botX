@@ -301,7 +301,7 @@ def update_module(payload):
     if module_name not in botX_meta[module_type]:
         raise CreateProjectError('Module type ', module_name, ' does not exist')
     payload[1] = botX_meta[module_type][module_name]['url']
-    remove_module(payload, False)
+    remove_module([payload[0], module_name], False)
     add_module(payload)
 
 def print_version(payload):
