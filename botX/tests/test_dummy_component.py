@@ -1,4 +1,4 @@
-from botX.components import BaseComponent
+from ..components import BaseComponent
 
 class DummyComponent(BaseComponent):
 
