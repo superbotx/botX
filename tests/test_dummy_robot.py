@@ -35,6 +35,6 @@ class DummyRobot(BaseRobot):
 def test_dummy_component():
     dummy = DummyRobot()
     dummy.start()
-    assert(dummy['dummy_component'].get_img('i want img') == 'img')
-    assert(dummy['dummy_component'].get_coord('bbox') == 10)
+    assert(dummy.components['dummy_component'].get_img('i want img') == 'img')
+    assert(dummy.components['dummy_component'].get_coord('bbox') == 10)
     dummy.shutdown()
