@@ -290,6 +290,17 @@ def install_all():
     catkin_make('external_modules')
 
 def update_module(payload):
+    botX_meta = None
+    with open('botX.json', 'r') as botX_file:
+        botX_meta = json.loads(botX_file.read())
+    module_type = payload[0]
+    module_name = payload[1]
+    if module_type not in set(['botX', 'external']):
+        raise CreateProjectError('Module type ', module_type, ' does not exist, use botX or external')
+    module_type = module_type + '_modules'
+    if module_name not in botX_meta[module_type]:
+        raise CreateProjectError('Module type ', module_name, ' does not exist')
+    payload[1] = botX_meta[module_type][module_name]['url']
     remove_module(payload, False)
     add_module(payload)
 
