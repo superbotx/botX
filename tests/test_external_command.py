@@ -10,3 +10,4 @@ def test_ros_command():
     proc_id = external_command_pool.start_command(command)
     time.sleep(1)
     external_command_pool.end_command(proc_id)
+    external_command_pool.end_command('some random pid')
