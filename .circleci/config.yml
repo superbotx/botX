@@ -48,8 +48,8 @@ jobs:
           name: run module installation
           command: |
             . venv/bin/activate
-            python setup.py build
-            python setup.py install
+            python3 setup.py build
+            python3 setup.py install
 
       - run:
           name: run unit tests
