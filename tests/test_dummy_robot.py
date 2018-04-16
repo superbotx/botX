@@ -24,7 +24,7 @@ class DummyRobot(BaseRobot):
 
     def __init__(self):
         super(DummyRobot, self).__init__()
-        self.add_component('dummy_component', DummyRobot())
+        self.add_component('dummy_component', DummyComponent())
 
     def additional_setup(self):
         print('setting up dummy robot')

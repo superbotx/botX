@@ -51,3 +51,4 @@ def test_doc():
     output_installation_page()
     output_command_pages()
     output_example_pages()
+    print(get_help())
