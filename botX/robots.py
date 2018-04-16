@@ -35,8 +35,8 @@ class BaseRobot(ABC):
 
     def start(self, **kwargs):
         configs = kwargs.pop('configs', {})
-        self.setup_components(**configs)
         self.additional_setup(**kwargs)
+        self.setup_components(**configs)
 
     def shutdown(self, **kwargs):
         self.shutdown_components()
