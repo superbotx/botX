@@ -1,8 +1,5 @@
-import sys
-sys.path.append('botX')
-
-from utils.install_util import *
-from utils.exception_util import *
+from .botX.utils.install_util import *
+from .botX.utils.exception_util import *
 
 def exec_command(argv):
     action_type, payload = process_argv(argv)

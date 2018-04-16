@@ -1,7 +1,7 @@
 [run]
 branch = True
 source =
-    build/lib/botX/
+    tests/botX
 
 [report]
 exclude_lines =
@@ -11,4 +11,4 @@ exclude_lines =
     if __name__ == .__main__.:
 ignore_errors = True
 omit =
-    tests/*
+    tests/botX/utils/templates/*

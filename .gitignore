@@ -3,6 +3,8 @@ botXenv
 venv
 .DS_Store
 __pycache__
+tests/botX/*
+.pytest_cache
 
 docs/_site
 docs/.sass-cache

@@ -1,7 +1,4 @@
-import sys
-sys.path.append('botX')
-
-from components import BaseComponent
+from .botX.components import BaseComponent
 
 class DummyComponent(BaseComponent):
 
