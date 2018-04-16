@@ -34,7 +34,7 @@ class BaseRobot(ABC):
         pass
 
     def start(self, **kwargs):
-        configs = kwargs.pop('configs', None)
+        configs = kwargs.pop('configs', {})
         self.setup_components(**configs)
         self.additional_setup(**kwargs)
 
