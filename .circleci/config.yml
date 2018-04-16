@@ -28,6 +28,12 @@ jobs:
           - v1-dependencies-
 
       - run:
+          name: run module installation
+          command: |
+            python3 setup.py build
+            python3 setup.py install
+
+      - run:
           name: install dependencies
           command: |
             python3 -m venv --system-site-packages venv
@@ -44,12 +50,6 @@ jobs:
       # other common Python testing frameworks include pytest and nose
       # https://pytest.org
       # https://nose.readthedocs.io
-      - run:
-          name: run module installation
-          command: |
-            . venv/bin/activate
-            python3 setup.py build
-            python3 setup.py install
 
       - run:
           name: check pip packages
