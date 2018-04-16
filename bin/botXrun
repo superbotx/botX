@@ -1,0 +1,25 @@
+#!/bin/bash
+
+file=./botX.json
+
+if [ -e "$file" ]; then
+
+    echo "Prepairing to launch botX application ..."
+
+    echo "Sourcing ros ..."
+
+    source external_modules/devel/setup.bash
+
+    echo "Terminating other python scripts ..."
+
+    pkill -9 python
+
+    echo "Launching botX application ..."
+
+    python3 botXapp.py
+    
+else
+
+    echo "Must be in a project root directory"
+
+fi

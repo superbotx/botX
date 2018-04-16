@@ -16,7 +16,7 @@ class BaseRobot(ABC):
 
     def setup_components(self, configs={}):
         for component_id, component in self.components.items():
-            setup_args = {}
+            setup_args = None
             if component_id in configs:
                 setup_args = configs[component_id]
             component.setup(**setup_args)
@@ -34,9 +34,9 @@ class BaseRobot(ABC):
         pass
 
     def start(self, **kwargs):
-        configs = kwargs.pop('configs', {})
-        self.additional_setup(**kwargs)
+        configs = kwargs.pop('configs', None)
         self.setup_components(**configs)
+        self.additional_setup(**kwargs)
 
     def shutdown(self, **kwargs):
         self.shutdown_components()
