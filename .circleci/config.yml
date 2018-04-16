@@ -55,6 +55,7 @@ jobs:
           name: run unit tests
           command: |
             . venv/bin/activate
+            source /opt/ros/kinetic/setup.bash
             cp -r botX tests/botX
             cp -r docs tests/docs
             pytest  --cov=tests/botX
