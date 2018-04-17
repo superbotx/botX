@@ -5,6 +5,7 @@ setup.cfg
 setup.py
 bin/botX
 bin/botXrun
+bin/botXsetup
 botX/__init__.py
 botX/applications.py
 botX/components.py
