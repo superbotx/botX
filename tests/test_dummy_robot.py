@@ -7,11 +7,11 @@ class DummyComponent(BaseComponent):
         super(DummyComponent, self).__init__()
 
     def setup(self):
-        print('setup component')
+        print('setup component ...')
         return 3
 
     def shutdown(self):
-        print('shutdown component')
+        print('shutdown component ...')
         return 5
 
     def get_img(self, config):
