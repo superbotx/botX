@@ -1,5 +1,5 @@
 from botX.tasks import BaseTask
-from test_dummy_robot import DummyRobot
+from .test_dummy_robot import DummyRobot
 
 class DummyTask(BaseTask):
 
