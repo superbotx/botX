@@ -22,7 +22,7 @@ class BaseRobot(ABC):
             if component_id in configs:
                 setup_args = configs[component_id]
             setup_t = Thread(target=component.setup, kwargs=setup_args)
-            waitlist.append(waitlist)
+            waitlist.append(setup_t)
         for setup_t in waitlist:
             setup_t.start()
         for setup_t in waitlist:
