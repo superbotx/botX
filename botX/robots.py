@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from threading import Thread
 
 class BaseRobot(ABC):
 
@@ -15,15 +16,27 @@ class BaseRobot(ABC):
             print(component_id, ' does not exist')
 
     def setup_components(self, configs={}):
+        waitlist = []
         for component_id, component in self.components.items():
             setup_args = {}
             if component_id in configs:
                 setup_args = configs[component_id]
-            component.setup(**setup_args)
+            setup_t = Thread(target=component.setup, kwargs=setup_args)
+            waitlist.append(waitlist)
+        for setup_t in waitlist:
+            setup_t.start()
+        for setup_t in waitlist:
+            setup_t.join()
 
     def shutdown_components(self):
+        waitlist = []
         for component_id, component in self.components.items():
-            component.shutdown()
+            shutdown_t = Thread(target=component.shutdown)
+            waitlist.append(shutdown_t)
+        for shutdown_t in waitlist:
+            shutdown_t.start()
+        for shutdown_t in waitlist:
+            shutdown_t.join()
 
     @abstractmethod
     def additional_setup(self):
