@@ -5,4 +5,4 @@ def test_error():
 
 	oops.__init__(self, error, fix)
 
-	return error = oops.err_msg, fix = oops.fix_msg:
+	return error == oops.err_msg and fix == oops.fix_msg
