@@ -1,4 +1,4 @@
-from .botX.utils.exception_util.py import CreateProjectError
+from .botX.utils.exception_util import CreateProjectError
 
 def test_error():
 	oops = CreateProjectError(ValueError)
