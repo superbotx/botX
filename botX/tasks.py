@@ -1,5 +1,7 @@
-from abc import ABC, abstractmethod
+from __future__ import print_function
+import abc, six
 
+@six.add_metaclass(abc.ABCMeta)
 class BaseTask(ABC):
 
     def __init__(self, robot):
@@ -30,10 +32,10 @@ class BaseTask(ABC):
         self_args = configs['self']
         self.setup(**self_args)
 
-    @abstractmethod
+    @abc.abstractmethod
     def setup(self, **kwargs):
         pass
 
-    @abstractmethod
+    @abc.abstractmethod
     def run(self, **kwargs):
         pass

@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 class CreateProjectError(Exception):
 
     def __init__(self, err_msg, fix_msg):

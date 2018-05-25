@@ -1,6 +1,8 @@
-from abc import ABC, abstractmethod
+from __future__ import print_function
+import abc, six
 
-class BaseRobot(ABC):
+@six.add_metaclass(abc.ABCMeta)
+class BaseRobot():
 
     def __init__(self):
         self.components = {}
@@ -25,11 +27,11 @@ class BaseRobot(ABC):
         for component_id, component in self.components.items():
             component.shutdown()
 
-    @abstractmethod
+    @abc.abstractmethod
     def additional_setup(self):
         pass
 
-    @abstractmethod
+    @abc.abstractmethod
     def additional_shutdown(self):
         pass
 
